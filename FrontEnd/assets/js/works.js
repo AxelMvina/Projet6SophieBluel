@@ -1,8 +1,3 @@
-
-
-const gallery = document.querySelector('.gallery');
-const filters = document.querySelector('.filters')
-
 // appel du tableau backend
 async function getWorks() {
     const response = await fetch("http://localhost:5678/api/works");
@@ -10,11 +5,11 @@ async function getWorks() {
     return responseJson;
 }
 
-getWorks();
+
 
 
 // affichage des works
-async function affichageWorks() {
+async function affichageWorks(gallery) {
     const arrayWorks = await getWorks();
     arrayWorks.forEach(work => {
         const figure = document.createElement('figure');
@@ -28,7 +23,7 @@ async function affichageWorks() {
     });
 }
 
-affichageWorks();
+
 
 //***affichage boutons par categories***
 
@@ -40,10 +35,10 @@ async function getCategorys() {
     return await response.json();
 }
 
-getCategorys();
+
 
 // afficher les bouttons
-async function displayCategorysButtons() {
+async function displayCategorysButtons(filters) {
     const categorys = await getCategorys();
     categorys.forEach(category =>{
         const btn = document.createElement("button");
@@ -53,7 +48,6 @@ async function displayCategorysButtons() {
     });
 }
 
-displayCategorysButtons();
 
 // filtrer les projets
 // async function filterCategory() {
