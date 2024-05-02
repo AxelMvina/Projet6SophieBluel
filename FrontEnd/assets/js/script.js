@@ -2,13 +2,15 @@
 
 window.addEventListener("load", (event) => {
 
-    const gallery = document.querySelector('.gallery');
+    
     const filters = document.querySelector('.filters')
+    const buttonFil = document.querySelector('.buttonFilter')
 
     getWorks();
     affichageWorks(gallery);
     getCategorys();
-    displayCategorysButtons(filters);
+    displayCategorysButtons(filters,buttonFil);
+    filterCategory(gallery);
 })
 
 
