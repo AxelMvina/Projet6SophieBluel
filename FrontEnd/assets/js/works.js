@@ -8,7 +8,7 @@ async function getWorks() {
 const gallery = document.querySelector('.gallery');
 
 
-
+// affichage des images
 async function affichageWorks() {
     const images = await getWorks();
     images.forEach((image) => {
@@ -16,7 +16,7 @@ async function affichageWorks() {
     });
   }
 
-  
+//   creation du html dans le dom
   function createImage(image) {
     const figure = document.createElement("figure");
     const img = document.createElement("img");
