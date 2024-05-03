@@ -4,12 +4,11 @@ window.addEventListener("load", (event) => {
 
     
     const filters = document.querySelector('.filters')
-    const buttonFil = document.querySelector('.buttonFilter')
 
     getWorks();
     affichageWorks(gallery);
     getCategorys();
-    displayCategorysButtons(filters,buttonFil);
+    displayCategorysButtons(filters);
     filterCategory(gallery);
     buttonactive();
 })
