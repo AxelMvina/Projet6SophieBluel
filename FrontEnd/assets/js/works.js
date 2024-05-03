@@ -5,19 +5,17 @@ async function getWorks() {
     return responseJson;
 }
 
-const gallery = document.querySelector('.gallery');
-
 
 // affichage des images
-async function affichageWorks() {
+async function affichageWorks(gallery) {
     const images = await getWorks();
     images.forEach((image) => {
-      createImage(image);
+      createImage(image,gallery);
     });
   }
 
 //   creation du html dans le dom
-  function createImage(image) {
+  function createImage(image,gallery) {
     const figure = document.createElement("figure");
     const img = document.createElement("img");
     const figcaption = document.createElement("figcaption");
@@ -41,7 +39,6 @@ async function getCategorys() {
 }
 
 
-
 // afficher les bouttons
 async function displayCategorysButtons(filters) {
     const categorys = await getCategorys();
@@ -61,6 +58,7 @@ async function displayCategorysButtons(filters) {
   });       
 }
 
+
 // ajout class active au click boutton Tous
 function buttonactive() {
     const button = document.querySelector('.filters button');
@@ -71,9 +69,6 @@ function buttonactive() {
         });
    
 }
-
-
-
 
 
 // filtrer les projets
@@ -92,11 +87,11 @@ async function filterCategory(gallery) {
                 });
                 console.log(projectTriCategory);
                 projectTriCategory.forEach(image => {
-                    createImage(image);
+                    createImage(image, gallery);
                 });
             }
             else {
-                affichageWorks();
+                affichageWorks(gallery);
             }
             console.log(btnId);
         });
