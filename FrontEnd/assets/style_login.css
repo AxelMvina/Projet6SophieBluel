@@ -122,6 +122,11 @@ h2 {
     margin-bottom: 30px;
 }
 
+.login p {
+    margin-bottom: 1em;
+    color: red;
+}
+
 label {
     font-weight: 500;
     font-size: 14px;
