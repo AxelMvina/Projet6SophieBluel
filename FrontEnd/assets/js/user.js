@@ -1,20 +1,44 @@
 
-const url = 'http://localhost:5678/api/users/login';
+// async function getUsers() {
+//     fetch(,{
+//         method: 'post',
+//         body:
+//         header: 
+//     })
+// }
 
 
-let user = {
-    "email": "sophiebluel@gmail.com",
-    "password": "photo"
-}
 
-const request = new Request(url, {
-    method: "POST",
-    body: user,
-    headers: { "Content-Type": "application/json" }
 
-});
 
-fetch(request)
-.then(function() {
-    // Handle response you get from the server
-});
+
+// async function login(email,password,messageErreur,form) {
+//     const users = await getUsers();
+//     console.log(users);
+//     form.addEventListener("submit", (e) => {
+//       e.preventDefault();
+//       const userEmail = email.value;
+//       const userPwd = password.value;
+//       console.log(userEmail, userPwd);
+//       users.forEach((user) => {
+//         // verifications
+//         if (
+//           user.email == userEmail &&
+//           user.password == userPwd &&
+//           user.admin == true
+//         ) {
+//           // si les conditions sont remplies on fait ça
+//           window.sessionStorage.loged = true;
+//           window.location.href = "../index.html";
+//           // console.log("je suis conecté");
+//         } else {
+//           //message d'erreur
+//           email.classList.add("inputErrorLogin");
+//           password.classList.add("inputErrorLogin");
+//           messageErreur.textContent =
+//             "Votre email ou votre mot de passe est incorrect";
+//         }
+//       });
+//     });
+//   }
+  
