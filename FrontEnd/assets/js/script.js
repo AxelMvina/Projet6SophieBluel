@@ -11,6 +11,7 @@ window.addEventListener("load", (event) => {
     getCategorys();
     displayCategorysButtons(filters,buttonFil);
     filterCategory(gallery);
+    buttonactive();
 })
 
 

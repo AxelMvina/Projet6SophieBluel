@@ -142,7 +142,10 @@ background-color: white;
 padding: 8px;
 font-weight: 700;
 font-family: 'Syne';
+padding-left: 20px;
+padding-right: 20px;
 }
+
 .filters button:hover{
 	background-color: #1D6154;
 	color: white;
