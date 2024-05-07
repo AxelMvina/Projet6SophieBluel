@@ -98,3 +98,35 @@ async function filterCategory(gallery) {
     });
 }
 
+// si l'utilisateur est connecter
+
+const loged = window.sessionStorage.loged;
+const logout = document.querySelector(".logout");
+const modifier = document.querySelector("#modifier");
+const containerModals = document.querySelector(".containerModals")
+const xmark = document.querySelector(".containerModals .fa-xmark")
+
+if (loged == "true") {
+    logout.textContent = "logout";
+    logout.addEventListener('click',()=>{
+        window.sessionStorage.loged = false;
+    })
+    filters.style.display = 'none';
+    modifier.style.display = 'inline-flex';
+}
+
+// afficher/cacher la modals
+
+modifier.addEventListener("click",()=>{
+    containerModals.style.display = 'flex';
+})
+
+xmark.addEventListener("click",()=>{
+    containerModals.style.display = 'none';
+})
+
+containerModals.addEventListener('click', (e) => {
+    if (e.target.className == "containerModals") {
+        containerModals.style.display = 'none';
+    }
+});
