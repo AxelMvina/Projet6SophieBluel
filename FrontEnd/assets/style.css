@@ -243,6 +243,8 @@ footer nav ul {
 	margin: 2em
 }
 
+
+/* modal */
 .containerModals {
 	display: none;
 	inset: 0;
@@ -339,4 +341,5 @@ footer nav ul {
 .galeriePhoto span i {
 	color: white;
 	font-size: 10px;
+	cursor: pointer;
 }
