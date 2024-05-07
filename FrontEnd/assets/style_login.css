@@ -132,14 +132,14 @@ label {
     font-size: 14px;
     margin-bottom: 5px;
 }
-input {
+#email,#password{
     margin-bottom: 2em;
     width: 379px;
     border: none;
     height: 30px;
 }
 
-section button {
+#submit {
     font-family: 'Syne';
 	font-weight: 700;
 	color: white;
