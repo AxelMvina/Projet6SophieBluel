@@ -100,16 +100,15 @@ async function filterCategory(gallery) {
 
 // si l'utilisateur est connecter
 
-const loged = window.sessionStorage.loged;
 const logout = document.querySelector(".logout");
 const modifier = document.querySelector("#modifier");
 const containerModals = document.querySelector(".containerModals")
 const xmark = document.querySelector(".containerModals .fa-xmark")
 
-if (loged == "true") {
+if (isConnected()) {
     logout.textContent = "logout";
     logout.addEventListener('click',()=>{
-        window.sessionStorage.loged = false;
+        disconnected()
     })
     filters.style.display = 'none';
     modifier.style.display = 'inline-flex';

@@ -1,20 +1,5 @@
 
-const email = document.getElementById("email");
-const password = document.getElementById("password");
-const submit = document.getElementById("submit");
 
-// Au clic, on envoie les valeurs de connextion
-submit.addEventListener("click", (e) => {
-    e.preventDefault();
-    let user = {
-        email: email.value,
-        password: password.value
-    };
-    login(user);
-    console.log(user)
-})
-
-const form = document.querySelector("form");
 
 function login(id) {
     
@@ -41,12 +26,29 @@ function login(id) {
 
         // Si couple email/mdp correct
         } else {
-            window.sessionStorage.loged = true;
             window.location.href = "../index.html";
+            console.log(result)
+            localStorage.setItem('token', result.token);
         }
     })
     // prevenir l'utilisateur en cas d'erreur
     .catch(error => 
         console.log(error));
 
+}
+
+// ajout de token si connecter
+function isConnected() {
+    let token = localStorage.getItem('token');
+    if (token !== null) {
+        return true;
+    }
+    else {
+        return false
+    }
+}
+
+// suppression du token deconnecter
+function disconnected() {
+    localStorage.removeItem('token');
 }
