@@ -343,3 +343,133 @@ footer nav ul {
 	font-size: 10px;
 	cursor: pointer;
 }
+
+/* deuxieme modal */
+
+.modalAddImage {
+	display: none;
+	flex-direction: column;
+	justify-content: space-around;
+	align-items: center;
+	background-color: white;
+	width: 40%;
+	height: 80%;
+	border-radius: 10px;
+	position: relative;
+}
+
+.fa-arrow-left{
+	position: absolute;
+	top: 20px;
+	left: 20px;
+	cursor: pointer;
+}
+
+.modalAddImage h2 {
+	font-family: 'Work Sans';
+	color: black;
+	font-weight: 400;
+	font-size: 26px;
+	padding-top: 40px;
+}
+
+.modalAddImage form {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	width: 100%;
+	height: 95%;
+}
+
+
+.containerFile {
+	display: flex;
+	align-self: center;
+	flex-direction: column;
+	align-items: center;
+	height: 35%;
+	width: 90%;
+	margin-top: 1em;
+
+}
+
+.containerFile .fa-image{
+	color: #CBD6DC;
+		
+}
+
+.containerFile label {
+	background-color: #CBD6DC;
+	border-radius: 15px;
+	padding: 8px 25px 8px 25px;
+	color: #306685;
+	font-size: 14px;
+	font-weight: 600;
+	margin-top: 1rem;
+}
+
+.containerFile input {
+	display: none;
+}
+
+.containerFile img {
+	display: none;
+	max-width: 100%;
+	height: 70%;
+}
+
+.containerFile p {
+	padding-top: 5px;
+	font-size: 10px;
+	font-weight: 400px;
+}
+
+#labelCat, #labelTitle {
+	font-size: 16px;
+	color: black;
+	font-weight: 600;
+	margin-bottom: 8px;
+	padding-left: 15%;
+	padding-top: 10px;
+}
+
+
+.modalAddImage #title {
+	width: 69%;
+	align-self: center;
+	margin-bottom: 1rem;
+	border: none;
+	height: 40px;
+}
+
+.modalAddImage #category {
+	width: 70%;
+	align-self: center;
+	height: 40px;
+}
+
+
+
+.modalAddImage hr {
+	height: 1px;
+	width: 70%;
+	border: none;
+	background-color: #B3B3B3;
+	margin-top: 3em;
+}
+
+.modalAddImage button {
+	font-family: 'Syne';
+	font-weight: 700;
+	color: white;
+	background-color: #A7A7A7;
+	margin-top: 3.4rem;
+	margin-bottom : 1em;
+	width: 40%;
+	text-align: center;
+	border-radius: 60px;
+	border: #A7A7A7;
+	padding: 10px;
+	cursor: pointer;
+	align-self: center;
+}

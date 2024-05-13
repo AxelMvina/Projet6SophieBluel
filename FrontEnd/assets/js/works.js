@@ -102,8 +102,7 @@ async function filterCategory(gallery) {
 
 const logout = document.querySelector(".logout");
 const modifier = document.querySelector("#modifier");
-const containerModals = document.querySelector(".containerModals")
-const xmark = document.querySelector(".containerModals .fa-xmark")
+
 
 if (isConnected()) {
     logout.textContent = "logout";
@@ -113,19 +112,3 @@ if (isConnected()) {
     filters.style.display = 'none';
     modifier.style.display = 'inline-flex';
 }
-
-// afficher/cacher la modals
-
-modifier.addEventListener("click",()=>{
-    containerModals.style.display = 'flex';
-})
-
-xmark.addEventListener("click",()=>{
-    containerModals.style.display = 'none';
-})
-
-containerModals.addEventListener('click', (e) => {
-    if (e.target.className == "containerModals") {
-        containerModals.style.display = 'none';
-    }
-});

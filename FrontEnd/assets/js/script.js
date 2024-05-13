@@ -12,7 +12,8 @@ window.addEventListener("load", (event) => {
     displayCategorysButtons(filters);
     filterCategory(gallery);
     buttonactive();
-    displayWorksModal(galeriePhoto)
+    displayWorksModal(galeriePhoto);
+    displayAddModal();
 })
 
 
