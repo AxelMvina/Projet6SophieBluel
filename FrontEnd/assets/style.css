@@ -446,6 +446,7 @@ footer nav ul {
 	width: 70%;
 	align-self: center;
 	height: 40px;
+	border: none;
 }
 
 
@@ -472,4 +473,13 @@ footer nav ul {
 	padding: 10px;
 	cursor: pointer;
 	align-self: center;
+}
+
+.modalAddImage select {
+	border: 1px solid white !important;
+}
+
+.buttonModal-2-active {
+	background-color: #1D6154 !important;
+	border: #1D6154 !important;
 }

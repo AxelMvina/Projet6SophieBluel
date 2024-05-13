@@ -31,7 +31,7 @@ function deleteImage(galeriePhoto) {
             const init = {
                 method:"DELETE",
                 headers: { 
-                    'Authorization': `Bearer ${token}`},
+                    Authorization: `Bearer ${token}`},
             }
             // envoie de la requete avec l'id de la trash can 
             fetch("http://localhost:5678/api/works/" +id,init)
@@ -118,4 +118,82 @@ inputFile.addEventListener("change",() => {
     }
 })
 
+// liste de categorie/input select
+async function displayCategoryModal() {
+    const select = document.querySelector(".modalAddImage select");
+    const categorys = await getCategorys()
+    categorys.forEach(category => {
+        const option = document.createElement("option")
+        option.value = category.id
+        option.textContent = category.name
+        select.appendChild(option)
+    });
+}
+
+
+/* Fonction permettant de changer le style CSS du bouton "Valider" et le rendant 
+    fonctionnelle quand les champs "image, titre & catégorie" sont remplie */
+function verifFormCompleted() {
+    const buttonValidForm = document.querySelector(".modalAddImage button");
+        
+
+    form.addEventListener("input", () => {
+        if (title.value !== "" && category.value !== "" && inputFile.value !== "") {
+            buttonValidForm.classList.add("buttonModal-2-active");
+            buttonValidForm.disabled = false;
+        } else {
+            buttonValidForm.classList.remove("buttonModal-2-active");
+            buttonValidForm.disabled = true;
+        }
+    });
+}
+
+
+
 // Post ajout de l'image
+const form =document.querySelector(".modalAddImage form")
+const title = document.querySelector(".modalAddImage #title")
+const category = document.querySelector(".modalAddImage #category")
+
+form.addEventListener("submit",async (e) => {
+    e.preventDefault();
+    const playload = new FormData();
+    /* Ajout des données au FormData pour l'envoi via la requête HTTP */
+    playload.append("title", title.value);
+    playload.append("category", category.value);
+    playload.append("image", inputFile.files[0]);
+
+    /* Affichage des valeurs du titre, de la catégorie et du fichier dans la console */
+    console.log(title.value);
+    console.log(category.value);
+    console.log(inputFile.files[0]);
+
+    try {
+        /* Récupération du token de la session */
+        const token = window.sessionStorage.getItem("token");
+        /* Envoi de la requête POST au serveur avec les données du formulaire */
+        const response = await fetch("http://localhost:5678/api/works/", {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${token}`
+            },
+            body: playload,
+        });
+
+        /* Vérification si la réponse du serveur est OK */
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        /* Récupération des données JSON de la réponse */
+        const data = await response.json();
+        /* Affichage d'un message de succès dans la console */
+        console.log("Nouvelle image bien chargée !" + data);
+        /* Actualisation de la galerie d'image et de la modale permettant la suppression d'une image */
+        affichageWorks(gallery);
+        displayWorksModal(galeriePhoto);
+
+    } catch (error) {
+        console.log("Une erreur est survenue lors de l'envoi de l'image :", error.message);
+    }
+})

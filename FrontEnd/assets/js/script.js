@@ -14,6 +14,8 @@ window.addEventListener("load", (event) => {
     buttonactive();
     displayWorksModal(galeriePhoto);
     displayAddModal();
+    displayCategoryModal();
+    verifFormCompleted();
 })
 
 
