@@ -30,8 +30,7 @@ function deleteImage(galeriePhoto) {
             const id = trash.id
             const init = {
                 method:"DELETE",
-                headers: { 
-                    Authorization: `Bearer ${token}`},
+                headers: {Authorization: `Bearer ${token}`},
             }
             // envoie de la requete avec l'id de la trash can 
             fetch("http://localhost:5678/api/works/" +id,init)
@@ -101,7 +100,7 @@ const inconFile = document.querySelector(".containerFile .fa-image")
 const pFile = document.querySelector(".containerFile p")
 
 
-// Ecouter changements sur input file
+// Ecouter changements sur input file (preview)
 
 inputFile.addEventListener("change",() => {
     const file = inputFile.files[0]
@@ -170,13 +169,11 @@ form.addEventListener("submit",async (e) => {
 
     try {
         /* Récupération du token de la session */
-        const token = window.sessionStorage.getItem("token");
+        let token = localStorage.getItem('token');
         /* Envoi de la requête POST au serveur avec les données du formulaire */
         const response = await fetch("http://localhost:5678/api/works/", {
             method: "POST",
-            headers: {
-                Authorization: `Bearer ${token}`
-            },
+            headers: {Authorization: `Bearer ${token}`},
             body: playload,
         });
 
