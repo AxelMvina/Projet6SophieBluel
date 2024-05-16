@@ -1,52 +1,6 @@
 
 
 
-async function displayWorksModal(galeriePhoto) {
-    galeriePhoto.innerHTML ="";
-    const images = await getWorks();
-    images.forEach(image => {
-        const figure = document.createElement("figure");
-        const img = document.createElement("img");
-        const span = document.createElement("span");
-        const trash = document.createElement("i");
-        trash.classList.add("fa-solid","fa-trash-can");
-        trash.id = image.id;
-        img.src = image.imageUrl;
-        span.appendChild(trash)
-        figure.appendChild(span)
-        figure.appendChild(img)
-        galeriePhoto.appendChild(figure)
-    });
-    deleteImage()
-}
-
-// fonction pour supprimer une image
-function deleteImage(galeriePhoto) {
-    const trashAll = document.querySelectorAll(".fa-trash-can")
-    console.log(trashAll);
-    trashAll.forEach(trash => {
-        trash.addEventListener("click", (e) =>{
-            let token = localStorage.getItem('token');
-            const id = trash.id
-            const init = {
-                method:"DELETE",
-                headers: {Authorization: `Bearer ${token}`},
-            }
-            // envoie de la requete avec l'id de la trash can 
-            fetch("http://localhost:5678/api/works/" +id,init)
-            .then((response) => {
-                if (!response.ok) {
-                    console.log("le delete n'a pas marcher !")
-                }
-                return response.json();
-            })
-            .then((data) => {
-                console.log("le delete a reussi voici la data :", data)
-                displayWorksModal(galeriePhoto);
-            })
-        })
-    });
-}
 
 const containerModals = document.querySelector(".containerModals")
 const xmark = document.querySelector(".containerModals .fa-xmark")
@@ -76,21 +30,8 @@ const modalGalerie = document.querySelector(".modalGalerie")
 const arrowLeft = document.querySelector(".fa-arrow-left")
 const xmarkAdd = document.querySelector(".modalAddImage .fa-xmark")
 
-
-// afficher/cacher la deuxieme modal 
-function displayAddModal() {
-    btnAddmodal.addEventListener("click", () => {
-        modalAddImage.style.display = 'flex';
-        modalGalerie.style.display = 'none';
-    })
-    arrowLeft.addEventListener("click",() => {
-        modalAddImage.style.display = 'none';
-        modalGalerie.style.display = 'flex';
-    })
-    xmarkAdd.addEventListener("click",()=>{
-        containerModals.style.display = 'none';
-    });
-}
+const title = document.querySelector(".modalAddImage #title")
+const category = document.querySelector(".modalAddImage #category")
 
 // previsualisation de l'image
 const previewImg = document.querySelector(".containerFile img")
@@ -136,61 +77,131 @@ function verifFormCompleted() {
     const buttonValidForm = document.querySelector(".modalAddImage button");
         
 
-    form.addEventListener("input", () => {
-        if (title.value !== "" && category.value !== "" && inputFile.value !== "") {
-            buttonValidForm.classList.add("buttonModal-2-active");
-            buttonValidForm.disabled = false;
-        } else {
-            buttonValidForm.classList.remove("buttonModal-2-active");
-            buttonValidForm.disabled = true;
-        }
+    
+    if (title.value !== "" && category.value !== "" && inputFile.value !== "") {
+        buttonValidForm.classList.add("buttonModal-2-active");
+        buttonValidForm.disabled = false;
+    } else {
+        buttonValidForm.classList.remove("buttonModal-2-active");
+        buttonValidForm.disabled = true;
+    }
+    
+}
+
+// afficher/cacher la deuxieme modal 
+function displayAddModal() {
+    btnAddmodal.addEventListener("click", () => {
+        modalAddImage.style.display = 'flex';
+        modalGalerie.style.display = 'none';
+    })
+    arrowLeft.addEventListener("click",() => {
+        modalAddImage.style.display = 'none';
+        modalGalerie.style.display = 'flex';
+    })
+    xmarkAdd.addEventListener("click",()=>{
+        containerModals.style.display = 'none';
     });
 }
 
+// au click valider de la modal on retourne a la modalDisplay
+function backtoModaldelete() {
+    const buttonValidForm = document.querySelector(".modalAddImage button");
+    buttonValidForm.addEventListener("click",() => {
+        modalAddImage.style.display = 'none';
+        modalGalerie.style.display = 'flex';
+        
+    })
+}
 
 
-// Post ajout de l'image
-const form =document.querySelector(".modalAddImage form")
-const title = document.querySelector(".modalAddImage #title")
-const category = document.querySelector(".modalAddImage #category")
-
-form.addEventListener("submit",async (e) => {
-    e.preventDefault();
+// ajout de works en passant par la modal d'ajout
+async function addWork(gallery, galleryModal) {
     const playload = new FormData();
-    /* Ajout des données au FormData pour l'envoi via la requête HTTP */
     playload.append("title", title.value);
     playload.append("category", category.value);
     playload.append("image", inputFile.files[0]);
 
-    /* Affichage des valeurs du titre, de la catégorie et du fichier dans la console */
-    console.log(title.value);
-    console.log(category.value);
-    console.log(inputFile.files[0]);
-
     try {
-        /* Récupération du token de la session */
         let token = localStorage.getItem('token');
-        /* Envoi de la requête POST au serveur avec les données du formulaire */
         const response = await fetch("http://localhost:5678/api/works/", {
             method: "POST",
-            headers: {Authorization: `Bearer ${token}`},
+            headers: { Authorization: `Bearer ${token}` },
             body: playload,
         });
 
-        /* Vérification si la réponse du serveur est OK */
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
 
-        /* Récupération des données JSON de la réponse */
-        const data = await response.json();
-        /* Affichage d'un message de succès dans la console */
-        console.log("Nouvelle image bien chargée !" + data);
-        /* Actualisation de la galerie d'image et de la modale permettant la suppression d'une image */
-        affichageWorks(gallery);
-        displayWorksModal(galeriePhoto);
+        const work = await response.json();
+        console.log("Ajout réussi :", work);
+        createImage(work, gallery);
+        createWorkModal(work, galleryModal);
+
+        // Réinitialiser le formulaire après le traitement réussi de la soumission du formulaire POST
+        const form = document.querySelector(".modalAddImage form");
+        form.reset();
+
+        // Réinitialiser l'aperçu de l'image après le traitement réussi de la soumission du formulaire POST
+        previewImg.src = ""; // Réinitialisation de la source de l'image
+        previewImg.style.display = "none"; // Cacher l'aperçu de l'image
+        labelFile.style.display = "block"; // Afficher l'étiquette de fichier
+        inconFile.style.display = "block"; // Afficher l'icône de fichier
+        pFile.style.display = "block"; // Afficher le texte de fichier
 
     } catch (error) {
-        console.log("Une erreur est survenue lors de l'envoi de l'image :", error.message);
+        console.error("Une erreur est survenue lors de l'envoi de l'image :", error.message);
     }
-})
+}
+
+async function displayWorksModal(galleryModal) {
+    galleryModal.innerHTML ="";
+    const images = await getWorks();
+    images.forEach(image => {
+        createWorkModal(image,galleryModal);
+    });
+    deleteImage(galleryModal)
+}
+
+function createWorkModal(work,galleryModal){
+    const figure = document.createElement("figure");
+        const img = document.createElement("img");
+        const span = document.createElement("span");
+        const trash = document.createElement("i");
+        trash.classList.add("fa-solid","fa-trash-can");
+        trash.id = work.id;
+        img.src = work.imageUrl;
+        span.appendChild(trash)
+        figure.appendChild(span)
+        figure.appendChild(img)
+        galleryModal.appendChild(figure)
+}
+
+// fonction pour supprimer une image
+function deleteImage(galleryModal) {
+    const trashAll = document.querySelectorAll(".fa-trash-can")
+    // console.log(trashAll);
+    trashAll.forEach(trash => {
+        trash.addEventListener("click", (e) =>{
+            let token = localStorage.getItem('token');
+            const id = trash.id
+            const init = {
+                method:"DELETE",
+                headers: {Authorization: `Bearer ${token}`},
+            }
+            // envoie de la requete avec l'id de la trash can 
+            fetch("http://localhost:5678/api/works/" +id,init)
+            .then((response) => {
+                console.log(response)
+                if (!response.ok) {
+                    console.log("le delete n'a pas marcher !")
+                }
+                return response;
+            })
+            .then((data) => {
+                console.log("le delete a reussi voici la data :", data)
+                displayWorksModal(galleryModal);
+            })
+        })
+    });
+}

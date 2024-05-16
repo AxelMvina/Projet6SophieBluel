@@ -4,7 +4,7 @@ window.addEventListener("load", (event) => {
 
     const gallery = document.querySelector('.gallery');
     const filters = document.querySelector('.filters');
-    const galeriePhoto = document.querySelector(".galeriePhoto")
+    const galleryModal = document.querySelector(".galeriePhoto")
 
     getWorks();
     affichageWorks(gallery);
@@ -12,10 +12,28 @@ window.addEventListener("load", (event) => {
     displayCategorysButtons(filters);
     filterCategory(gallery);
     buttonactive();
-    displayWorksModal(galeriePhoto);
+    displayWorksModal(galleryModal);
     displayAddModal();
     displayCategoryModal();
-    verifFormCompleted();
+    
+
+    // Post ajout de l'image
+    const form =document.querySelector(".modalAddImage form")
+   
+
+    form.addEventListener("submit",async (e) => {
+        e.preventDefault();
+        addWork(gallery,galleryModal)
+        verifFormCompleted();
+        
+    })
+
+    form.addEventListener("input", () => {
+        verifFormCompleted();
+    });
+    backtoModaldelete();
 })
+
+
 
 

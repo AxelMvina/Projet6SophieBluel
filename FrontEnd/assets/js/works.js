@@ -8,19 +8,19 @@ async function getWorks() {
 
 // affichage des images
 async function affichageWorks(gallery) {
-    const images = await getWorks();
-    images.forEach((image) => {
+    const work = await getWorks();
+    work.forEach(image => {
       createImage(image,gallery);
     });
   }
-
+  
 //   creation du html dans le dom
-  function createImage(image,gallery) {
+  function createImage(work,gallery) {
     const figure = document.createElement("figure");
     const img = document.createElement("img");
     const figcaption = document.createElement("figcaption");
-    img.src = image.imageUrl;
-    figcaption.textContent = image.title;
+    img.src = work.imageUrl;
+    figcaption.textContent = work.title;
     figure.appendChild(img);
     figure.appendChild(figcaption);
     gallery.appendChild(figure);
