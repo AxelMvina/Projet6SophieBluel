@@ -98,17 +98,3 @@ async function filterCategory(gallery) {
     });
 }
 
-// si l'utilisateur est connecter
-
-const logout = document.querySelector(".logout");
-const modifier = document.querySelector("#modifier");
-
-
-if (isConnected()) {
-    logout.textContent = "logout";
-    logout.addEventListener('click',()=>{
-        disconnected()
-    })
-    filters.style.display = 'none';
-    modifier.style.display = 'inline-flex';
-}

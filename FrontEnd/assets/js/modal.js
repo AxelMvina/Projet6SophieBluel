@@ -1,63 +1,6 @@
 
 
 
-
-const containerModals = document.querySelector(".containerModals")
-const xmark = document.querySelector(".containerModals .fa-xmark")
-
-
-// afficher/cacher la premiere modals
-
-modifier.addEventListener("click",()=>{
-    containerModals.style.display = 'flex';
-});
-
-xmark.addEventListener("click",()=>{
-    containerModals.style.display = 'none';
-});
-
-containerModals.addEventListener('click', (e) => {
-    if (e.target.className == "containerModals") {
-        containerModals.style.display = 'none';
-    }
-});
-
-
-// modal 2 addImage
-const btnAddmodal = document.querySelector(".modalGalerie button")
-const modalAddImage = document.querySelector(".modalAddImage")
-const modalGalerie = document.querySelector(".modalGalerie")
-const arrowLeft = document.querySelector(".fa-arrow-left")
-const xmarkAdd = document.querySelector(".modalAddImage .fa-xmark")
-
-const title = document.querySelector(".modalAddImage #title")
-const category = document.querySelector(".modalAddImage #category")
-
-// previsualisation de l'image
-const previewImg = document.querySelector(".containerFile img")
-const inputFile = document.querySelector(".containerFile input")
-const labelFile = document.querySelector(".containerFile label")
-const inconFile = document.querySelector(".containerFile .fa-image")
-const pFile = document.querySelector(".containerFile p")
-
-
-// Ecouter changements sur input file (preview)
-
-inputFile.addEventListener("change",() => {
-    const file = inputFile.files[0]
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function (e){
-            previewImg.src = e.target.result
-            previewImg.style.display = "flex";
-            labelFile.style.display = "none";
-            inconFile.style.display = "none";
-            pFile.style.display = "none";
-        }
-        reader.readAsDataURL(file);
-    }
-})
-
 // liste de categorie/input select
 async function displayCategoryModal() {
     const select = document.querySelector(".modalAddImage select");
@@ -75,7 +18,7 @@ async function displayCategoryModal() {
     fonctionnelle quand les champs "image, titre & catégorie" sont remplie */
 function verifFormCompleted() {
     const buttonValidForm = document.querySelector(".modalAddImage button");
-        
+    const inputFile = document.querySelector(".containerFile input")
 
     
     if (title.value !== "" && category.value !== "" && inputFile.value !== "") {
@@ -90,6 +33,11 @@ function verifFormCompleted() {
 
 // afficher/cacher la deuxieme modal 
 function displayAddModal() {
+    const btnAddmodal = document.querySelector(".modalGalerie button")
+    const modalAddImage = document.querySelector(".modalAddImage")
+    const modalGalerie = document.querySelector(".modalGalerie")
+    const arrowLeft = document.querySelector(".fa-arrow-left")
+    const xmarkAdd = document.querySelector(".modalAddImage .fa-xmark")
     btnAddmodal.addEventListener("click", () => {
         modalAddImage.style.display = 'flex';
         modalGalerie.style.display = 'none';
@@ -106,6 +54,8 @@ function displayAddModal() {
 // au click valider de la modal on retourne a la modalDisplay
 function backtoModaldelete() {
     const buttonValidForm = document.querySelector(".modalAddImage button");
+    const modalAddImage = document.querySelector(".modalAddImage")
+    const modalGalerie = document.querySelector(".modalGalerie")
     buttonValidForm.addEventListener("click",() => {
         modalAddImage.style.display = 'none';
         modalGalerie.style.display = 'flex';
@@ -116,6 +66,12 @@ function backtoModaldelete() {
 
 // ajout de works en passant par la modal d'ajout
 async function addWork(gallery, galleryModal) {
+    const inputFile = document.querySelector(".containerFile input")
+    const previewImg = document.querySelector(".containerFile img")
+  
+    const labelFile = document.querySelector(".containerFile label")
+    const inconFile = document.querySelector(".containerFile .fa-image")
+ const pFile = document.querySelector(".containerFile p")
     const playload = new FormData();
     playload.append("title", title.value);
     playload.append("category", category.value);
@@ -160,7 +116,7 @@ async function displayWorksModal(galleryModal) {
     images.forEach(image => {
         createWorkModal(image,galleryModal);
     });
-    deleteImage(galleryModal)
+   
 }
 
 function createWorkModal(work,galleryModal){
@@ -169,6 +125,9 @@ function createWorkModal(work,galleryModal){
         const span = document.createElement("span");
         const trash = document.createElement("i");
         trash.classList.add("fa-solid","fa-trash-can");
+        trash.addEventListener("click", (e) =>{
+            deleteImage(trash, galleryModal);
+        })
         trash.id = work.id;
         img.src = work.imageUrl;
         span.appendChild(trash)
@@ -177,31 +136,27 @@ function createWorkModal(work,galleryModal){
         galleryModal.appendChild(figure)
 }
 
+
+
 // fonction pour supprimer une image
-function deleteImage(galleryModal) {
-    const trashAll = document.querySelectorAll(".fa-trash-can")
-    // console.log(trashAll);
-    trashAll.forEach(trash => {
-        trash.addEventListener("click", (e) =>{
-            let token = localStorage.getItem('token');
-            const id = trash.id
-            const init = {
-                method:"DELETE",
-                headers: {Authorization: `Bearer ${token}`},
-            }
-            // envoie de la requete avec l'id de la trash can 
-            fetch("http://localhost:5678/api/works/" +id,init)
-            .then((response) => {
-                console.log(response)
-                if (!response.ok) {
-                    console.log("le delete n'a pas marcher !")
-                }
-                return response;
-            })
-            .then((data) => {
-                console.log("le delete a reussi voici la data :", data)
-                displayWorksModal(galleryModal);
-            })
-        })
-    });
+function deleteImage(trash, galleryModal) {
+    let token = localStorage.getItem('token');
+    const id = trash.id
+    const init = {
+        method:"DELETE",
+        headers: {Authorization: `Bearer ${token}`},
+    }
+    // envoie de la requete avec l'id de la trash can 
+    fetch("http://localhost:5678/api/works/" +id,init)
+    .then((response) => {
+        console.log(response)
+        if (!response.ok) {
+            console.log("le delete n'a pas marcher !")
+        }
+        return response;
+    })
+    .then((data) => {
+        console.log("le delete a reussi voici la data :", data)
+        displayWorksModal(galleryModal);
+    })
 }
