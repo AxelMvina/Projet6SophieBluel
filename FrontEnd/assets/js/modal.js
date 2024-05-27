@@ -19,7 +19,7 @@ async function displayCategoryModal() {
 function verifFormCompleted() {
     const buttonValidForm = document.querySelector(".modalAddImage button");
     const inputFile = document.querySelector(".containerFile input")
-
+    const pcomplete = document.querySelector(".errorComplete");
     
     if (title.value !== "" && category.value !== "" && inputFile.value !== "") {
         buttonValidForm.classList.add("buttonModal-2-active");
@@ -28,16 +28,24 @@ function verifFormCompleted() {
         buttonValidForm.classList.remove("buttonModal-2-active");
         buttonValidForm.disabled = true;
     }
+    // ajout message pour remplir les champs
+    if (title.value == "" || category.value == "" || inputFile.value == "") {
+        pcomplete.innerHTML = "Veuillez remplir tous les champs";
+    } else {
+        pcomplete.innerHTML ="";
+    }
+
     
 }
 
 // afficher/cacher la deuxieme modal 
 function displayAddModal() {
-    const btnAddmodal = document.querySelector(".modalGalerie button")
-    const modalAddImage = document.querySelector(".modalAddImage")
-    const modalGalerie = document.querySelector(".modalGalerie")
-    const arrowLeft = document.querySelector(".fa-arrow-left")
-    const xmarkAdd = document.querySelector(".modalAddImage .fa-xmark")
+    const btnAddmodal = document.querySelector(".modalGalerie button");
+    const modalAddImage = document.querySelector(".modalAddImage");
+    const modalGalerie = document.querySelector(".modalGalerie");
+    const arrowLeft = document.querySelector(".fa-arrow-left");
+    const xmarkAdd = document.querySelector(".modalAddImage .fa-xmark");
+    const containerModals = document.querySelector(".containerModals");
     btnAddmodal.addEventListener("click", () => {
         modalAddImage.style.display = 'flex';
         modalGalerie.style.display = 'none';
@@ -68,10 +76,9 @@ function backtoModaldelete() {
 async function addWork(gallery, galleryModal) {
     const inputFile = document.querySelector(".containerFile input")
     const previewImg = document.querySelector(".containerFile img")
-  
     const labelFile = document.querySelector(".containerFile label")
     const inconFile = document.querySelector(".containerFile .fa-image")
- const pFile = document.querySelector(".containerFile p")
+    const pFile = document.querySelector(".containerFile p")
     const playload = new FormData();
     playload.append("title", title.value);
     playload.append("category", category.value);
@@ -155,7 +162,7 @@ function deleteImage(trash, galleryModal) {
         }
         return response;
     })
-    .then((data) => {
+    .then((data)  => {
         console.log("le delete a reussi voici la data :", data)
         displayWorksModal(galleryModal);
     })

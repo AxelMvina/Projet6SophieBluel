@@ -5,11 +5,6 @@ window.addEventListener("load", (event) => {
     const gallery = document.querySelector('.gallery');
     const filters = document.querySelector('.filters');
     const galleryModal = document.querySelector(".galeriePhoto")
-     // modal 2 addImage
-     
-     
-    
-   
  
      const title = document.querySelector(".modalAddImage #title")
      const category = document.querySelector(".modalAddImage #category")
@@ -30,7 +25,7 @@ window.addEventListener("load", (event) => {
     displayCategorysButtons(filters);
     filterCategory(gallery);
     buttonactive();
-    displayWorksModal(galleryModal);
+    displayWorksModal(galleryModal, gallery);
     displayAddModal();
     displayCategoryModal();
     

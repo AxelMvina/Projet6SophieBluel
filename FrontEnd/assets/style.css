@@ -484,3 +484,8 @@ footer nav ul {
 	background-color: #1D6154 !important;
 	border: #1D6154 !important;
 }
+
+.errorComplete {
+	color: #1D6154;
+	align-self: center;
+}

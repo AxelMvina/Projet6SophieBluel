@@ -8,6 +8,7 @@ async function getWorks() {
 
 // affichage des images
 async function affichageWorks(gallery) {
+    gallery.innerHTML = "";
     const work = await getWorks();
     work.forEach(image => {
       createImage(image,gallery);
