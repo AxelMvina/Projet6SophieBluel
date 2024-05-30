@@ -5,27 +5,36 @@ async function getWorks() {
     return responseJson;
 }
 
+// suppression du travail dont l'id est passé en paramètre (est appelé depuis la modale)
+function deleteWorkHtml(id){
+    // récupération du travaux
+    const workHtml = document.querySelector(".gallery figure[data-id='"+id+"']");
+    workHtml.remove();
+}
+
 
 // affichage des images
-async function affichageWorks(gallery) {
+async function affichageWorks(gallery, works) {
+    console.log(works);
     gallery.innerHTML = "";
-    const work = await getWorks();
-    work.forEach(image => {
-      createImage(image,gallery);
+   
+    works.forEach(work => {
+      createImage(work,gallery);
     });
-  }
+}
   
 //   creation du html dans le dom
-  function createImage(work,gallery) {
+function createImage(work,gallery) {
     const figure = document.createElement("figure");
     const img = document.createElement("img");
     const figcaption = document.createElement("figcaption");
     img.src = work.imageUrl;
+    figure.dataset.id = work.id;
     figcaption.textContent = work.title;
     figure.appendChild(img);
     figure.appendChild(figcaption);
     gallery.appendChild(figure);
-  }
+}
 
 
 
@@ -41,21 +50,46 @@ async function getCategorys() {
 
 
 // afficher les bouttons
-async function displayCategorysButtons(filters) {
+async function displayCategorysButtons(filters, galleryHtml, works) {
     const categorys = await getCategorys();
     categorys.forEach(category =>{
-        const btn = document.createElement("button");
-        btn.textContent = category.name;
-        btn.id = category.id;
-        btn.classList.add('buttonFilter');
-        filters.appendChild(btn);
+    const btn = document.createElement("button");
+    btn.textContent = category.name;
+    btn.id = category.id;
+    btn.classList.add('buttonFilter');
+    filters.appendChild(btn);
 
-        // ajout class active au click
-         
-            btn.addEventListener('click', function() {
-            document.querySelector('.active')?.classList.remove('active');
-            this.classList.add('active');
-        }); 
+    console.log(works);
+
+    // ajout class active au click
+        
+    btn.addEventListener('click', function(e) {
+
+        const btnId = e.target.id;
+        let projectTriCategory;
+        galleryHtml.innerHTML = "";
+        if (btnId !== "0") {
+            const projectTriCategory = works.filter((image) =>{
+                return image.categoryId == btnId;
+            });
+            console.log(projectTriCategory);
+           
+        }
+        else {
+            projectTriCategory = works;
+        }
+
+
+        projectTriCategory.forEach(image => {
+            createImage(image, gallery);
+        });
+        /*else {
+            affichageWorks(gallery);
+        }*/
+        console.log(btnId);
+        document.querySelector('.active')?.classList.remove('active');
+        this.classList.add('active');
+    }); 
   });       
 }
 
@@ -72,30 +106,5 @@ function buttonactive() {
 }
 
 
-// filtrer les projets
-async function filterCategory(gallery) {
-    const project = await getWorks();
-    console.log(project)
-    const buttons = document.querySelectorAll(".filters button");
-    console.log(buttons)
-    buttons.forEach(button => {
-        button.addEventListener("click",(e)=>{
-            const btnId = e.target.id;
-            gallery.innerHTML = "";
-            if (btnId !== "0") {
-                const projectTriCategory = project.filter((image) =>{
-                    return image.categoryId == btnId;
-                });
-                console.log(projectTriCategory);
-                projectTriCategory.forEach(image => {
-                    createImage(image, gallery);
-                });
-            }
-            else {
-                affichageWorks(gallery);
-            }
-            console.log(btnId);
-        });
-    });
-}
+
 

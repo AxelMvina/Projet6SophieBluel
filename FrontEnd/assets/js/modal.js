@@ -128,27 +128,33 @@ async function displayWorksModal(galleryModal) {
 
 function createWorkModal(work,galleryModal){
     const figure = document.createElement("figure");
-        const img = document.createElement("img");
-        const span = document.createElement("span");
-        const trash = document.createElement("i");
-        trash.classList.add("fa-solid","fa-trash-can");
-        trash.addEventListener("click", (e) =>{
-            deleteImage(trash, galleryModal);
-        })
-        trash.id = work.id;
-        img.src = work.imageUrl;
-        span.appendChild(trash)
-        figure.appendChild(span)
-        figure.appendChild(img)
-        galleryModal.appendChild(figure)
+    const img = document.createElement("img");
+    const span = document.createElement("span");
+    const trash = document.createElement("i");
+    trash.classList.add("fa-solid","fa-trash-can");
+    trash.addEventListener("click", (e) =>{
+        deleteImage(work.id);
+    })
+    figure.dataset.id = work.id;
+    img.src = work.imageUrl;
+    span.appendChild(trash)
+    figure.appendChild(span)
+    figure.appendChild(img)
+    galleryModal.appendChild(figure)
+}
+
+function deleteWorkModalHtml(id) {
+     // récupération du travail dans la modale
+     const workHtml = document.querySelector(".modalGalerie figure[data-id='"+id+"']");
+     workHtml.remove();
 }
 
 
 
 // fonction pour supprimer une image
-function deleteImage(trash, galleryModal) {
+function deleteImage(id) {
     let token = localStorage.getItem('token');
-    const id = trash.id
+  
     const init = {
         method:"DELETE",
         headers: {Authorization: `Bearer ${token}`},
@@ -164,6 +170,7 @@ function deleteImage(trash, galleryModal) {
     })
     .then((data)  => {
         console.log("le delete a reussi voici la data :", data)
-        displayWorksModal(galleryModal);
+        deleteWorkModalHtml(id);
+        deleteWorkHtml(id);
     })
 }
