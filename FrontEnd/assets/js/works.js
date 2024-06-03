@@ -52,6 +52,26 @@ async function getCategorys() {
 // afficher les bouttons
 async function displayCategorysButtons(filters, galleryHtml, works) {
     const categorys = await getCategorys();
+    
+    // Créer le bouton "Tous" avec id 0
+    const allBtn = document.createElement("button");
+    allBtn.textContent = "Tous";
+    allBtn.id = "0";
+    allBtn.classList.add('buttonFilter');
+    allBtn.classList.add('active');
+    filters.appendChild(allBtn);
+
+    // Ajout de l'événement de clic pour le bouton "Tous"
+    allBtn.addEventListener('click', function(e) {
+        galleryHtml.innerHTML = "";
+        works.forEach(image => {
+            createImage(image, galleryHtml);
+        });
+        document.querySelector('.active')?.classList.remove('active');
+        this.classList.add('active');
+    });
+    
+    // Création des boutons de Tri
     categorys.forEach(category =>{
     const btn = document.createElement("button");
     btn.textContent = category.name;
@@ -95,15 +115,15 @@ async function displayCategorysButtons(filters, galleryHtml, works) {
 
 
 // ajout class active au click boutton Tous
-function buttonactive() {
-    const button = document.querySelector('.filters button');
+// function buttonactive() {
+//     const button = document.querySelector('.filters button');
     
-        button.addEventListener('click', function() {
-            document.querySelector('.active')?.classList.remove('active');
-            this.classList.add('active');
-        });
+//         button.addEventListener('click', function() {
+//             document.querySelector('.active')?.classList.remove('active');
+//             this.classList.add('active');
+//         });
    
-}
+// }
 
 
 

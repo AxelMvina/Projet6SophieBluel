@@ -24,7 +24,6 @@ window.addEventListener("load", async (event) =>
         // on passe à la fonction les works pour pouvoir les filtrer
         displayCategorysButtons(filters, gallery, works);
     
-        buttonactive();
         displayWorksModal(galleryModal, gallery);
         displayAddModal();
         displayCategoryModal();
