@@ -1,5 +1,83 @@
 
+async function displayWorksModal(galleryModal) {
+    galleryModal.innerHTML ="";
+    const images = await getWorks();
+    images.forEach(image => {
+        createWorkModal(image,galleryModal);
+    });
+   
+}
 
+function createWorkModal(work,galleryModal){
+    const figure = document.createElement("figure");
+    const img = document.createElement("img");
+    const span = document.createElement("span");
+    const trash = document.createElement("i");
+    trash.classList.add("fa-solid","fa-trash-can");
+    trash.addEventListener("click", (e) =>{
+        deleteImage(work.id);
+    })
+    figure.dataset.id = work.id;
+    img.src = work.imageUrl;
+    span.appendChild(trash)
+    figure.appendChild(span)
+    figure.appendChild(img)
+    galleryModal.appendChild(figure)
+}
+
+function deleteWorkModalHtml(id) {
+     // récupération du travail dans la modale
+     const workHtml = document.querySelector(".modalGalerie figure[data-id='"+id+"']");
+     workHtml.remove();
+}
+
+
+
+// fonction pour supprimer une image
+function deleteImage(id) {
+    let token = localStorage.getItem('token');
+  
+    const init = {
+        method:"DELETE",
+        headers: {Authorization: `Bearer ${token}`},
+    }
+    // envoie de la requete avec l'id de la trash can 
+    fetch("http://localhost:5678/api/works/" +id,init)
+    .then((response) => {
+        console.log(response)
+        if (!response.ok) {
+            console.log("le delete n'a pas marcher !")
+        }
+        return response;
+    })
+    .then((data)  => {
+        console.log("le delete a reussi voici la data :", data)
+        deleteWorkModalHtml(id);
+        deleteWorkHtml(id);
+    })
+}
+
+
+// afficher/cacher la deuxieme modal 
+function displayAddModal() {
+    const btnAddmodal = document.querySelector(".modalGalerie button");
+    const modalAddImage = document.querySelector(".modalAddImage");
+    const modalGalerie = document.querySelector(".modalGalerie");
+    const arrowLeft = document.querySelector(".fa-arrow-left");
+    const xmarkAdd = document.querySelector(".modalAddImage .fa-xmark");
+    const containerModals = document.querySelector(".containerModals");
+    btnAddmodal.addEventListener("click", () => {
+        modalAddImage.style.display = 'flex';
+        modalGalerie.style.display = 'none';
+    })
+    arrowLeft.addEventListener("click",() => {
+        modalAddImage.style.display = 'none';
+        modalGalerie.style.display = 'flex';
+    })
+    xmarkAdd.addEventListener("click",()=>{
+        containerModals.style.display = 'none';
+    });
+}
 
 // liste de categorie/input select
 async function displayCategoryModal() {
@@ -38,26 +116,6 @@ function verifFormCompleted() {
     
 }
 
-// afficher/cacher la deuxieme modal 
-function displayAddModal() {
-    const btnAddmodal = document.querySelector(".modalGalerie button");
-    const modalAddImage = document.querySelector(".modalAddImage");
-    const modalGalerie = document.querySelector(".modalGalerie");
-    const arrowLeft = document.querySelector(".fa-arrow-left");
-    const xmarkAdd = document.querySelector(".modalAddImage .fa-xmark");
-    const containerModals = document.querySelector(".containerModals");
-    btnAddmodal.addEventListener("click", () => {
-        modalAddImage.style.display = 'flex';
-        modalGalerie.style.display = 'none';
-    })
-    arrowLeft.addEventListener("click",() => {
-        modalAddImage.style.display = 'none';
-        modalGalerie.style.display = 'flex';
-    })
-    xmarkAdd.addEventListener("click",()=>{
-        containerModals.style.display = 'none';
-    });
-}
 
 // au click valider de la modal on retourne a la modalDisplay
 function backtoModaldelete() {
@@ -117,60 +175,3 @@ async function addWork(gallery, galleryModal) {
     }
 }
 
-async function displayWorksModal(galleryModal) {
-    galleryModal.innerHTML ="";
-    const images = await getWorks();
-    images.forEach(image => {
-        createWorkModal(image,galleryModal);
-    });
-   
-}
-
-function createWorkModal(work,galleryModal){
-    const figure = document.createElement("figure");
-    const img = document.createElement("img");
-    const span = document.createElement("span");
-    const trash = document.createElement("i");
-    trash.classList.add("fa-solid","fa-trash-can");
-    trash.addEventListener("click", (e) =>{
-        deleteImage(work.id);
-    })
-    figure.dataset.id = work.id;
-    img.src = work.imageUrl;
-    span.appendChild(trash)
-    figure.appendChild(span)
-    figure.appendChild(img)
-    galleryModal.appendChild(figure)
-}
-
-function deleteWorkModalHtml(id) {
-     // récupération du travail dans la modale
-     const workHtml = document.querySelector(".modalGalerie figure[data-id='"+id+"']");
-     workHtml.remove();
-}
-
-
-
-// fonction pour supprimer une image
-function deleteImage(id) {
-    let token = localStorage.getItem('token');
-  
-    const init = {
-        method:"DELETE",
-        headers: {Authorization: `Bearer ${token}`},
-    }
-    // envoie de la requete avec l'id de la trash can 
-    fetch("http://localhost:5678/api/works/" +id,init)
-    .then((response) => {
-        console.log(response)
-        if (!response.ok) {
-            console.log("le delete n'a pas marcher !")
-        }
-        return response;
-    })
-    .then((data)  => {
-        console.log("le delete a reussi voici la data :", data)
-        deleteWorkModalHtml(id);
-        deleteWorkHtml(id);
-    })
-}

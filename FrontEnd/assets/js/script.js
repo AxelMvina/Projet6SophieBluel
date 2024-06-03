@@ -1,14 +1,12 @@
 
 
-window.addEventListener("load", (event) => 
+window.addEventListener("load", async (event) => 
      {
 
         const gallery = document.querySelector('.gallery');
         const filters = document.querySelector('.filters');
         const galleryModal = document.querySelector(".galeriePhoto")
     
-        const title = document.querySelector(".modalAddImage #title")
-        const category = document.querySelector(".modalAddImage #category")
     
         // previsualisation de l'image
         const previewImg = document.querySelector(".containerFile img")
@@ -19,8 +17,7 @@ window.addEventListener("load", (event) =>
     
     
         
-
-        const works=  getWorks();
+        const works= await getWorks();
         console.log(works)
         affichageWorks(gallery, works);
         getCategorys();

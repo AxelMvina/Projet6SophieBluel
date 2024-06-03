@@ -5,13 +5,6 @@ async function getWorks() {
     return responseJson;
 }
 
-// suppression du travail dont l'id est passé en paramètre (est appelé depuis la modale)
-function deleteWorkHtml(id){
-    // récupération du travaux
-    const workHtml = document.querySelector(".gallery figure[data-id='"+id+"']");
-    workHtml.remove();
-}
-
 
 // affichage des images
 async function affichageWorks(gallery, works) {
@@ -37,6 +30,13 @@ function createImage(work,gallery) {
 }
 
 
+// suppression du travail dont l'id est passé en paramètre (est appelé depuis la modale)
+function deleteWorkHtml(id){
+    // récupération du travaux
+    const workHtml = document.querySelector(".gallery figure[data-id='"+id+"']");
+    workHtml.remove();
+}
+
 
 //***affichage boutons par categories***
 
@@ -59,7 +59,8 @@ async function displayCategorysButtons(filters, galleryHtml, works) {
     btn.classList.add('buttonFilter');
     filters.appendChild(btn);
 
-    console.log(works);
+    // tableau des travaux à afficher
+    let  projectTriCategory;
 
     // ajout class active au click
         
@@ -69,23 +70,22 @@ async function displayCategorysButtons(filters, galleryHtml, works) {
         let projectTriCategory;
         galleryHtml.innerHTML = "";
         if (btnId !== "0") {
-            const projectTriCategory = works.filter((image) =>{
+            projectTriCategory = works.filter((image) =>{
                 return image.categoryId == btnId;
             });
-            console.log(projectTriCategory);
+
            
         }
         else {
             projectTriCategory = works;
+            
         }
 
-
+        console.log("works",projectTriCategory);
         projectTriCategory.forEach(image => {
-            createImage(image, gallery);
+            createImage(image, galleryHtml);
         });
-        /*else {
-            affichageWorks(gallery);
-        }*/
+        
         console.log(btnId);
         document.querySelector('.active')?.classList.remove('active');
         this.classList.add('active');
