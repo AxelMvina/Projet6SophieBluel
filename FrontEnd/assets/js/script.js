@@ -51,6 +51,13 @@ window.addEventListener("load", async (event) =>
         inputFile.addEventListener("change", () => {
             const file = inputFile.files[0];
             if (file) {
+                const validTypes = ["image/jpeg", "image/jpg", "image/png"];
+                if (!validTypes.includes(file.type)) {
+                    alert("Le fichier doit être une image au format JPG, JPEG ou PNG.");
+                    inputFile.value = ""; // Réinitialiser le champ de fichier
+                    return;
+                }
+
                 if (file.size > 4 * 1024 * 1024) { // 4 Mo en octets
                     alert("La taille de l'image ne doit pas dépasser 4 Mo.");
                     inputFile.value = ""; // Réinitialiser le champ de fichier
