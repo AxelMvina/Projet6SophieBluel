@@ -114,16 +114,6 @@ async function displayCategorysButtons(filters, galleryHtml, works) {
 }
 
 
-// ajout class active au click boutton Tous
-// function buttonactive() {
-//     const button = document.querySelector('.filters button');
-    
-//         button.addEventListener('click', function() {
-//             document.querySelector('.active')?.classList.remove('active');
-//             this.classList.add('active');
-//         });
-   
-// }
 
 
 
