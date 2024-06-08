@@ -48,21 +48,26 @@ window.addEventListener("load", async (event) =>
 
         // Ecouter changements sur input file (preview)
     
-        inputFile.addEventListener("change",() => {
-            const file = inputFile.files[0]
+        inputFile.addEventListener("change", () => {
+            const file = inputFile.files[0];
             if (file) {
+                if (file.size > 4 * 1024 * 1024) { // 4 Mo en octets
+                    alert("La taille de l'image ne doit pas dépasser 4 Mo.");
+                    inputFile.value = ""; // Réinitialiser le champ de fichier
+                    return;
+                }
+        
                 const reader = new FileReader();
-                reader.onload = function (e){
-                    previewImg.src = e.target.result
+                reader.onload = function (e) {
+                    previewImg.src = e.target.result;
                     previewImg.style.display = "flex";
                     labelFile.style.display = "none";
                     inconFile.style.display = "none";
                     pFile.style.display = "none";
-                }
+                };
                 reader.readAsDataURL(file);
             }
-        })
-
+        });
         
         // si l'utilisateur est connecter
 
